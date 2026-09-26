@@ -1,0 +1,139 @@
+/* ================================================================
+   TOKENS – zentrale Design-Variablen für alle Bereiche
+   Hier mit Farben, Schriftgrößen, Spationierung, Hairlines,
+   Radien, Schatten und Easing spielen – gilt überall.
+   ================================================================ */
+:root {
+  /* ---- Flächen: vier entsättigte Blaus, ein Off-White – mehr gibt es nicht ---- */
+  --dunkelblau:     #0c0e29;                 /* Seite */
+  --mittelblau:     #191b33;                 /* Eingabefelder, Dialoge */
+  --card-bg:        #1d1f38;                 /* Karten */
+  --menu-blau:      #262840;                 /* Menüs, Toasts, Dropdowns */
+  --off-white:      #d4d7e3;                 /* New-State, Dialog */
+  --card-ghost:     color-mix(in srgb, var(--card-bg) 38%, var(--dunkelblau)); /* Error/Deleted */
+  --card-new-bg:    var(--off-white);
+  --nav-active:     rgba(255, 255, 255, 0.9);
+  --hover:          var(--white-6);
+
+  /* ---- Weiß-Rampe: feste Stufen für Flächen und Linien auf Dunkel ---- */
+  --white-3:        rgba(255, 255, 255, 0.03);
+  --white-6:        rgba(255, 255, 255, 0.06);
+  --white-10:       rgba(255, 255, 255, 0.10);
+  --white-14:       rgba(255, 255, 255, 0.14);
+  --white-25:       rgba(255, 255, 255, 0.25);
+
+  /* ---- Tinte-Rampe: dunkle Schrift und Flächen auf Hell ---- */
+  --ink:            #0c0e29;
+  --ink-6:          rgba(12, 14, 41, 0.06);
+  --ink-25:         rgba(12, 14, 41, 0.25);
+  --ink-50:         rgba(12, 14, 41, 0.50);
+  --ink-70:         rgba(12, 14, 41, 0.70);
+  --backdrop:       rgba(12, 14, 41, 0.72);  /* hinter Dialogen und Lightbox */
+
+  /* ---- Akzente: vier Kategorien, ein Fehlerrot (+ helle Textvariante) ---- */
+  --gruen:          #44cc6e;
+  --rot:            #cc4466;
+  --fehler:         #a8505f;                 /* Fehler & Konflikte – bewusst anders als Special */
+  --fehler-text:    #dd9aa6;
+  --blau:           #2977c3;
+  --gelb:           #f0c95e;                 /* heller – mehr Kontrast zum Blau */
+  --gruen-soft:     #8fcfa4;                 /* Meldungen: heller, entsättigt */
+  --gelb-soft:      #cfbd85;                 /* Hervorhebungen: entsättigtes Gelb */
+  --gelb-ink:       #57481d;                 /* Schrift auf --gelb-soft */
+
+  /* ---- Kategorien (Scheduler) ---- */
+  --cat-food:       var(--gelb);
+  --cat-marketing:  var(--gruen);
+  --cat-special:    var(--rot);
+  --cat-closing:    var(--blau);
+  --cat-tint:        14%;   /* Kategoriefarbe auf Flächen (Karten, Editor, Kalender-Slots) */
+  --cat-tint-strong: 46%;   /* hervorgehobener Slot im Kalender */
+  --cat-tint-food:   22%;   /* Gelb braucht mehr Anteil, um gleich hell zu wirken */
+  --cat-tint-food-strong: 58%;
+  --cat-base:        var(--card-bg);   /* Grundfläche, in die gemischt wird */
+
+  /* ---- Account-Banner: Foto (einzige Quelle – kein <img> im HTML). Beispiel
+          per Wikimedia-Link, besser lokal ablegen: url("assets/store.jpg") ---- */
+  --banner-image:   url("https://commons.wikimedia.org/wiki/Special:FilePath/IKEA_%288020223012%29.jpg?width=1600");
+
+  /* ---- Schriftfarben (Weiß per Deckkraft) ---- */
+  --text-100:       #ffffff;
+  --text-80:        rgba(255, 255, 255, 0.8);
+  --text-66:        rgba(255, 255, 255, 0.66);
+  --text-60:        rgba(255, 255, 255, 0.6);
+  --text-55:        rgba(255, 255, 255, 0.55);
+  --text-40:        rgba(255, 255, 255, 0.4);
+  --text-25:        rgba(255, 255, 255, 0.25);
+
+  --text-label:       var(--text-25);   /* Feld-Labels */
+  --text-placeholder: var(--text-40);   /* Platzhalter */
+  --text-inverse:   var(--ink);
+
+  /* ---- Schriftgrößen + Spationierung ---- */
+  --fs-heading:     21px;     --ls-heading:    0.005em;
+  --fs-nav:         16px;     --ls-nav:        0.01em;
+  --ls-body:        0.005em;
+  --fs-card-title:  16px;     --ls-card-title: 0.0025em;
+  --fs-base:        15px;     --ls-base:       0.01em;
+  --fs-menu:        13.5px;   --ls-menu:       0.01em;
+  --fs-section:     12.5px;   --ls-section:    0.02em;
+  --fs-label:       12.5px;   --ls-label:      0.015em;
+  --fs-badge:       11.5px;   --ls-badge:      0.015em;
+  --fs-small:       11.5px;   --ls-small:      0.015em;
+
+  /* ---- Hairlines (Breite × Alpha = optische Strichstärke) ---- */
+  --hair-w:         1px;
+  --hair-a:         0.07;
+  --hair-a-menu:    0.04;
+
+  --hairline:        var(--hair-w) solid rgba(255,255,255, var(--hair-a));
+
+  /* ---- Innenabstände: eine Stufe je Wrapper-Größe, rundum gleich ---- */
+  --pad-panel:      24px;   /* große Panels: Formular, Home-/Account-Karten, Dialog, Lightbox */
+  --pad-card:       20px;   /* Karten in den Listen */
+  --pad-box:        18px;   /* kleine Boxen: Konflikt-Box, Zusammenfassung, Popover */
+  --pad-toast:      14px;   /* Meldungen */
+
+  /* ---- Border-Radius ---- */
+  --radius-lg:      15px;
+  --radius-md:      10px;
+
+  /* ---- Schatten: dunkelblau statt schwarz ---- */
+  --shadow:         0 8px 22px rgba(12, 14, 41, 0.45);
+
+  /* ---- Player ---- */
+  --track-played:   var(--text-100);
+  --track-rest:     var(--white-25);
+  --thumb:          var(--text-80);
+
+  /* ---- Bewegung: ein Easing, feste Dauern – überall gleich ---- */
+  --ease:           cubic-bezier(0.45, 0, 0.15, 1);   /* weiches In-Out */
+  --dur-fast:       240ms;   /* Hover, Farbwechsel, kleine Ein-/Ausblendungen */
+  --dur:            380ms;   /* Umschalten, Standard-Übergang */
+  --dur-slow:       480ms;   /* Kalender-Slots, Ansichtswechsel */
+  --dur-sched:      600ms;   /* Scheduler-Grundtakt (Segment-Thumb, Edit-Schleier) */
+  --transition:     var(--dur-fast) var(--ease);
+
+  /* Erscheinen & Verschwinden (Scheduler-Choreografie, gilt überall):
+     Aufbau = Block fährt → Rahmen blendet ein → Zeilen nacheinander;
+     Abbau  = Zeilen aus → Rahmen aus → Block zurück */
+  --t-glide:        420ms;   /* Block fährt an seine Position (FLIP) */
+  --t-box:          460ms;   /* Rahmen/Feld blendet ein */
+  --t-box-close:    360ms;   /* Rahmen/Feld blendet aus */
+  --t-fade:         480ms;   /* eine Zeile blendet ein */
+  --t-row:          45ms;    /* Stagger zwischen zwei Zeilen */
+  --t-leave:        320ms;   /* Zeilen blenden aus */
+  --t-roll:         380ms;   /* geänderter Inhalt rollt dezent nach */
+  --t-reveal:       360ms;   /* Block wächst auf (Höhe) */
+  --t-reveal-close: 300ms;   /* Block klappt zu (Höhe) */
+  --t-fade-out:     180ms;   /* kurzes Ausblenden vor dem Zuklappen */
+  --font:           'Inter Tight', sans-serif;
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    --hair-w: 0.5px;
+    --hair-a: 0.14; --hair-a-menu: 0.08;
+  }
+}
+

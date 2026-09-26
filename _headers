@@ -1,0 +1,10 @@
+/*
+  X-Robots-Tag: noindex, nofollow
+  Content-Security-Policy: frame-ancestors https://sound-dna.com https://*.sound-dna.com
+  Cache-Control: no-store
+
+/css/*
+  Cache-Control: public, max-age=86400
+
+/js/*
+  Cache-Control: public, max-age=86400
