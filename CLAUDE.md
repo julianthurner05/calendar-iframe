@@ -111,7 +111,7 @@ python3 -m http.server 8000
 ## Rahmenbedingungen, die erhalten bleiben müssen
 
 - **Nicht-Indexierung:** `<meta name="robots">` in index.html, `robots.txt` und `X-Robots-Tag` in `_headers` – keines davon entfernen oder aufweichen.
-- **Framing:** `frame-ancestors` in `_headers` erlaubt Einbettung nur von sound-dna.com und Subdomains. Neue erlaubte Einbettungs-Domains nur auf ausdrückliche Anweisung ergänzen.
+- **Framing:** `frame-ancestors` in `_headers` erlaubt Einbettung von sound-dna.com, sound-dna.media (jeweils inkl. Subdomains) sowie – vorläufig für Dev-Tests – localhost/127.0.0.1. Neue erlaubte Einbettungs-Domains nur auf ausdrückliche Anweisung ergänzen.
 - **Caching:** HTML und JSON laufen mit `no-store` (Kunden sollen nach einem Push sofort den neuen Stand sehen), css/js mit max-age 86400. So lassen.
 - **Design:** Das Erscheinungsbild ist 1:1 aus dem SpotTool übernommen (dunkles Design, tokens.css). Bei Code-Arbeit: ausschließlich bestehende CSS-Variablen aus tokens.css verwenden, keine neuen Tokens und keine harten Werte einführen, keine ungefragten Zusatzelemente ins UI.
 - Der Kalender ist strikt read-only – keine Edit-, Klick- oder Formulier-Funktionen einbauen. Bearbeitung passiert ausschließlich über diese JSON-Dateien.

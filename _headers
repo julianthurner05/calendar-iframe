@@ -1,6 +1,6 @@
 /*
   X-Robots-Tag: noindex, nofollow
-  Content-Security-Policy: frame-ancestors https://sound-dna.com https://*.sound-dna.com
+  Content-Security-Policy: frame-ancestors 'self' https://sound-dna.com https://*.sound-dna.com https://sound-dna.media https://*.sound-dna.media http://localhost:* http://127.0.0.1:*;
   Cache-Control: no-store
 
 /css/*
