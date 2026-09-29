@@ -13,7 +13,7 @@
    Übersteuerbar ohne Push per Umgebungsvariable IFRAME_CHECK im
    Cloudflare-Pages-Projekt: "on" erzwingt den Check, "off" schaltet
    ihn ab – die Variable gewinnt immer gegen diese Konstante. */
-const CHECK_ACTIVE = false;
+const CHECK_ACTIVE = true;
 
 /* Gleiches Secret wie im SpotTool-Backend. Produktiv als Umgebungs-
    variable IFRAME_SECRET im Cloudflare-Pages-Projekt setzen; der
