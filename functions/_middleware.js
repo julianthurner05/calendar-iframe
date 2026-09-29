@@ -55,13 +55,22 @@ const deny = reason => new Response(`Zugriff verweigert: ${reason}`, {
   },
 });
 
+/* Antwort mit x-sig-check-Header markieren – macht sichtbar, ob die
+   Function überhaupt läuft und ob der Check an oder aus ist */
+async function pass(next, state) {
+  const res = await next();
+  const out = new Response(res.body, res);
+  out.headers.set("x-sig-check", state);
+  return out;
+}
+
 export async function onRequest(context) {
   const { request, env, next } = context;
-  if (!checkEnabled(env)) return next();
+  if (!checkEnabled(env)) return pass(next, "off");
 
   const url = new URL(request.url);
   const path = url.pathname;
-  if (PUBLIC_PREFIXES.some(p => path.startsWith(p)) || PUBLIC_FILES.includes(path)) return next();
+  if (PUBLIC_PREFIXES.some(p => path.startsWith(p)) || PUBLIC_FILES.includes(path)) return pass(next, "public");
 
   const expires = url.searchParams.get("expires");
   const hash = url.searchParams.get("hash");
@@ -73,5 +82,5 @@ export async function onRequest(context) {
   const expected = await hmacHex(secret, `${path}:${expires}`);
   if (!timingSafeEqualHex(hash, expected)) return deny("Ungültige Signatur");
 
-  return next();
+  return pass(next, "valid");
 }
