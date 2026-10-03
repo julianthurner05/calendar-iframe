@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers-Konfiguration: statische Assets + Signatur-Check.
+  // run_worker_first ist Pflicht, sonst werden Asset-Treffer (index.html)
+  // direkt ausgeliefert und der Worker (= der Check) läuft nie.
+  "name": "calendar-iframe",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-01-01",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}
