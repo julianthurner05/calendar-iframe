@@ -104,11 +104,15 @@ python3 -m http.server 8000
 │   └── <slug>.json      ← ein Datensatz pro Store
 ├── scripts/
 │   └── validate.js      ← prüft alle data/*.json gegen die Validierungsregeln (Node, ohne Dependencies)
-├── functions/
-│   └── _middleware.js   ← Signatur-Check für signierte Embed-URLs (Cloudflare Pages Function)
+├── worker/
+│   └── index.js         ← Cloudflare Worker: Signatur-Check + statische Auslieferung (Assets-Binding)
+├── wrangler.jsonc       ← Worker-Konfiguration (Assets aus Repo-Root, run_worker_first)
+├── .assetsignore        ← schließt .git, worker/, scripts/, CLAUDE.md etc. von der öffentlichen Auslieferung aus
 ├── _headers             ← X-Robots-Tag noindex, frame-ancestors sound-dna.com, Cache-Regeln
 └── robots.txt           ← Disallow all
 ```
+
+Deployment-Detail: Das Projekt läuft als **Cloudflare Worker** (Name `calendar-iframe`, Workers-Git-Integration – NICHT klassisches Pages; ein `functions/`-Verzeichnis würde ignoriert). Der Build nutzt die `wrangler.jsonc` im Repo; die `.assetsignore` muss erhalten bleiben, sonst wird u. a. das `.git`-Verzeichnis öffentlich ausgeliefert.
 
 ## Rahmenbedingungen, die erhalten bleiben müssen
 
@@ -118,12 +122,12 @@ python3 -m http.server 8000
 - **Design:** Das Erscheinungsbild ist 1:1 aus dem SpotTool übernommen (dunkles Design, tokens.css). Bei Code-Arbeit: ausschließlich bestehende CSS-Variablen aus tokens.css verwenden, keine neuen Tokens und keine harten Werte einführen, keine ungefragten Zusatzelemente ins UI.
 - Der Kalender ist strikt read-only – keine Edit-, Klick- oder Formulier-Funktionen einbauen. Bearbeitung passiert ausschließlich über diese JSON-Dateien.
 
-## Signierte Embed-URLs (functions/_middleware.js)
+## Signierte Embed-URLs (worker/index.js)
 
-Das SpotTool-Backend signiert Embed-URLs mit `signUrlPlusExpire()`: `hash = HMAC-SHA256(IFRAME_SECRET, "<pathname>:<expires>")`, angehängt als `?expires=…&hash=…`. Die Pages-Function prüft das serverseitig und liefert sonst 403. Geprüft werden nur Dokument-Requests; `css/`, `js/`, `data/` und `robots.txt` laufen frei durch (das iframe lädt sie selbst ohne Signatur nach).
+Das SpotTool-Backend signiert Embed-URLs mit `signUrlPlusExpire()`: `hash = HMAC-SHA256(IFRAME_SECRET, "<pathname>:<expires>")`, angehängt als `?expires=…&hash=…`. Der Worker prüft das serverseitig und liefert sonst 403 (Antwort-Header `x-sig-check` zeigt den Prüfstatus: valid/denied/public/off). Geprüft werden nur Dokument-Requests; `css/`, `js/`, `data/` und `robots.txt` laufen frei durch (das iframe lädt sie selbst ohne Signatur nach).
 
-- **Dev-Schalter:** `CHECK_ACTIVE` in `functions/_middleware.js` – steht aktuell auf `false` (Check aus, Kalender frei aufrufbar). Zum Scharfschalten auf `true` setzen und pushen. Ohne Push übersteuerbar per Umgebungsvariable `IFRAME_CHECK` (`"on"`/`"off"`) im Cloudflare-Pages-Projekt.
-- **Secret:** Umgebungsvariable `IFRAME_SECRET` im Cloudflare-Pages-Projekt setzen (gleicher Wert wie im SpotTool-Backend). Fallback ist der Dev-Wert aus dem Backend-Snippet.
+- **Dev-Schalter:** `CHECK_ACTIVE` in `worker/index.js` – steht auf `true` (Check scharf). Zum Abschalten auf `false` setzen und pushen. Ohne Push übersteuerbar per Umgebungsvariable `IFRAME_CHECK` (`"on"`/`"off"`) am Worker – die Variable gewinnt immer.
+- **Secret:** Als Secret `IFRAME_SECRET` am Worker `calendar-iframe` setzen (Settings → Variables and Secrets; gleicher Wert wie im SpotTool-Backend). Fallback ist der Dev-Wert aus dem Backend-Snippet.
 
 ## Kontext: Barix-Workflow (Übergangsphase)
 

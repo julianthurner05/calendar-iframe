@@ -1,0 +1,9 @@
+.git
+.gitignore
+.wrangler
+.assetsignore
+.claude
+worker
+scripts
+wrangler.jsonc
+CLAUDE.md
