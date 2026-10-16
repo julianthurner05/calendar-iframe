@@ -1,0 +1,197 @@
+{
+  "storeName": "Demo Store",
+  "timezone": "Europe/Vienna",
+  "storeHours": [
+    [
+      "09:00",
+      "20:00"
+    ],
+    [
+      "09:00",
+      "20:00"
+    ],
+    [
+      "09:00",
+      "20:00"
+    ],
+    [
+      "09:00",
+      "20:00"
+    ],
+    [
+      "09:00",
+      "20:00"
+    ],
+    [
+      "09:00",
+      "18:00"
+    ],
+    null
+  ],
+  "quietHours": [
+    {
+      "day": 2,
+      "from": "16:00",
+      "to": "18:00"
+    }
+  ],
+  "schedules": [
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Frühstücksangebot",
+      "category": "food",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "09:15"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Wochenangebot Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "10:00",
+        "14:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Mittagsmenü Durchsage",
+      "category": "food",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "11:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Kundenkarte Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "12:30",
+        "16:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Kundenkarte Durchsage (Mittwoch)",
+      "category": "marketing",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "12:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Kinderbetreuung Hinweis",
+      "category": "special",
+      "days": [
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "15:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Stille Stunde Hinweis",
+      "category": "special",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "15:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Abendangebot Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "18:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Schlussdurchsagen 1–4",
+      "category": "closing",
+      "locked": true,
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "19:30",
+        "19:45",
+        "19:55",
+        "20:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "01.01.2026",
+      "title": "Schlussdurchsagen 1–4 (Samstag)",
+      "category": "closing",
+      "locked": true,
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "17:30",
+        "17:45",
+        "17:55",
+        "18:00"
+      ]
+    }
+  ]
+}
