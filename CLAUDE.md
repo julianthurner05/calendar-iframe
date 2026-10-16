@@ -128,6 +128,7 @@ Das SpotTool-Backend signiert Embed-URLs mit `signUrlPlusExpire()`: `hash = HMAC
 
 - **Dev-Schalter:** `CHECK_ACTIVE` in `worker/index.js` – steht auf `true` (Check scharf). Zum Abschalten auf `false` setzen und pushen. Ohne Push übersteuerbar per Umgebungsvariable `IFRAME_CHECK` (`"on"`/`"off"`) am Worker – die Variable gewinnt immer.
 - **Secret:** Als Secret `IFRAME_SECRET` am Worker `calendar-iframe` setzen (Settings → Variables and Secrets; gleicher Wert wie im SpotTool-Backend). Fallback ist der Dev-Wert aus dem Backend-Snippet.
+- **Öffentliche Stores:** `PUBLIC_STORES` in `worker/index.js` listet Stores ohne Signaturpflicht – aktuell nur `demo-kalender` (Beispieldaten für Vorführungen, `https://cal-iframe.sound-dna.com/?store=demo-kalender`). Echte Kundenstores dort nie eintragen. Die Demo-Schedules haben kein `end`, damit der Kalender in jeder Woche befüllt ist.
 
 ## Kontext: Barix-Workflow (Übergangsphase)
 

@@ -23,6 +23,9 @@ const FALLBACK_SECRET = "tempSectret";
 const PUBLIC_PREFIXES = ["/css/", "/js/", "/data/"];
 const PUBLIC_FILES = ["/robots.txt", "/favicon.ico"];
 
+/* Stores ohne Signaturpflicht – nur Beispieldaten, keine Kundendaten */
+const PUBLIC_STORES = ["demo-kalender"];
+
 function checkEnabled(env) {
   if (env && env.IFRAME_CHECK === "off") return false;
   if (env && env.IFRAME_CHECK === "on") return true;
@@ -71,6 +74,9 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
     if (PUBLIC_PREFIXES.some(p => path.startsWith(p)) || PUBLIC_FILES.includes(path)) {
+      return pass(request, env, "public");
+    }
+    if (PUBLIC_STORES.includes(url.searchParams.get("store"))) {
       return pass(request, env, "public");
     }
 
