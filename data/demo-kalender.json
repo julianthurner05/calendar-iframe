@@ -1,5 +1,5 @@
 {
-  "storeName": "Demo Store",
+  "storeName": "IKEA Vösendorf",
   "timezone": "Europe/Vienna",
   "storeHours": [
     [
@@ -20,7 +20,7 @@
     ],
     [
       "09:00",
-      "20:00"
+      "21:00"
     ],
     [
       "09:00",
@@ -38,8 +38,8 @@
   "schedules": [
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Frühstücksangebot",
+      "start": "31.08.2026",
+      "title": "IKEA FOOD Frühstücksangebot",
       "category": "food",
       "days": [
         "Mo",
@@ -50,48 +50,14 @@
         "Sa"
       ],
       "times": [
-        "09:15"
+        "09:00",
+        "09:45"
       ]
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Wochenangebot Durchsage",
-      "category": "marketing",
-      "days": [
-        "Mo",
-        "Tu",
-        "We",
-        "Th",
-        "Fr",
-        "Sa"
-      ],
-      "times": [
-        "10:00",
-        "14:00"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Mittagsmenü Durchsage",
-      "category": "food",
-      "days": [
-        "Mo",
-        "Tu",
-        "We",
-        "Th",
-        "Fr",
-        "Sa"
-      ],
-      "times": [
-        "11:30"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Kundenkarte Durchsage",
+      "start": "31.08.2026",
+      "title": "IKEA FAMILY Durchsage",
       "category": "marketing",
       "days": [
         "Mo",
@@ -100,39 +66,208 @@
         "Fr"
       ],
       "times": [
-        "12:30",
-        "16:30"
+        "10:00",
+        "13:00",
+        "16:00",
+        "19:00"
       ]
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Kundenkarte Durchsage (Mittwoch)",
+      "start": "31.08.2026",
+      "title": "IKEA FAMILY Durchsage (Mittwoch)",
       "category": "marketing",
       "days": [
         "We"
       ],
       "times": [
+        "10:00",
+        "13:00",
+        "19:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "IKEA FAMILY Durchsage (Samstag)",
+      "category": "marketing",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "SCAN & PAY Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "10:30",
+        "12:30",
+        "15:30",
+        "17:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "SCAN & PAY Durchsage (Mittwoch)",
+      "category": "marketing",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "10:30",
         "12:30"
       ]
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Kinderbetreuung Hinweis",
-      "category": "special",
+      "start": "31.08.2026",
+      "title": "SCAN & PAY Durchsage (Samstag)",
+      "category": "marketing",
       "days": [
+        "Sa"
+      ],
+      "times": [
+        "11:30",
+        "13:30",
+        "15:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "IKEA Geschenkkarte Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
         "Fr",
         "Sa"
       ],
       "times": [
+        "11:00",
+        "14:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "Neuer Gesenkter Preis Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "11:30",
+        "14:30",
+        "16:30",
+        "18:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "Neuer Gesenkter Preis (Mittwoch)",
+      "category": "marketing",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "11:30",
+        "14:30",
+        "18:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "Neuer Gesenkter Preis (Samstag)",
+      "category": "marketing",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "12:30",
+        "14:30",
+        "16:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "ZLS Durchsage",
+      "category": "marketing",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "12:00",
+        "15:00",
+        "18:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "ZLS Durchsage (Samstag)",
+      "category": "marketing",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "12:00",
         "15:00"
       ]
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Stille Stunde Hinweis",
+      "start": "31.08.2026",
+      "title": "SMÅLAND Kipa Durchsage",
+      "category": "special",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "13:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "SMÅLAND Kipa Durchsage (Samstag)",
+      "category": "special",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "10:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "title": "Stille Stunde Durchsage",
       "category": "special",
       "days": [
         "We"
@@ -143,46 +278,106 @@
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Abendangebot Durchsage",
-      "category": "marketing",
+      "start": "31.08.2026",
+      "title": "Café Bar Schlussdurchsage",
+      "category": "food",
       "days": [
         "Mo",
         "Tu",
-        "We",
         "Th",
-        "Fr"
+        "Fr",
+        "Sa"
       ],
       "times": [
-        "18:00"
+        "17:10"
       ]
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Schlussdurchsagen 1–4",
+      "start": "31.08.2026",
       "category": "closing",
       "locked": true,
+      "title": "1. Schlussdurchsage",
       "days": [
         "Mo",
         "Tu",
         "We",
-        "Th",
-        "Fr"
+        "Th"
       ],
       "times": [
-        "19:30",
-        "19:45",
-        "19:55",
+        "19:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "2. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
+        "19:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "3. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
+        "19:55"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "4. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
         "20:00"
       ]
     },
     {
       "type": "weekly",
-      "start": "01.01.2026",
-      "title": "Schlussdurchsagen 1–4 (Samstag)",
+      "start": "31.08.2026",
       "category": "closing",
       "locked": true,
+      "title": "Schlussdurchsagen 1–4 (Freitag)",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "20:30",
+        "20:45",
+        "20:55",
+        "21:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "31.08.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "Schlussdurchsagen 1–4 (Samstag)",
       "days": [
         "Sa"
       ],
