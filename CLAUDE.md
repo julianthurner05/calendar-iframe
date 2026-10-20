@@ -51,7 +51,11 @@ Feldregeln:
 - `quietHours`: `day` ist 0 = Montag … 6 = Sonntag; in diesen Fenstern läuft nichts (der Kalender zeichnet sie als gesperrten Block).
 - `schedules[]`:
   - `title`: frei, so wie der Spot heißt
-  - `category`: exakt einer von `closing` (Opening/Closing, blau) | `standard` (grün) | `commercial` (gelb) | `special` (rot) – nichts anderes, keine neuen Kategorien erfinden. Die Anzeigenamen stehen in `CATEGORIES` in `js/embed.js`
+  - `category`: exakt einer von `closing` (Opening/Closing, blau) | `standard` (grün) | `commercial` (gelb) | `special` (rot) – nichts anderes, keine neuen Kategorien erfinden. Die Anzeigenamen stehen in `CATEGORIES` in `js/embed.js`. Zuordnung (Vorgabe sound.dna):
+    - `closing` – Opening/Closing: nur die Öffnungs- und Schlussdurchsagen des Stores (morgens, abends). Nicht für Schließzeiten einzelner Bereiche wie die Café Bar.
+    - `standard` – Durchsagen, die immer gebraucht werden (Family, Scan & Pay, Lieferungen/ZLS, Geschenkkarte, Café Bar Schluss …)
+    - `commercial` – Aktionen, Aktivitäten, Events, die mindestens 2 Wochen laufen (Neuer Gesenkter Preis, Weihnachtsmarkt, Monatsaktionen …)
+    - `special` – Tagesaktionen und Besonderheiten, nur an einzelnen Tagen (Zimtschneckentag, SMÅLAND Kipa, Stille Stunde …)
   - `type`: `weekly` (wiederkehrend, braucht `days`) oder `single` (einmalig, läuft nur am `start`-Datum, `days`/`end` entfallen)
   - `start` / `end`: Format exakt `dd.mm.yyyy`. `end` ist optional (ohne `end` läuft der Schedule unbefristet)
   - `days`: Teilmenge von exakt `["Mo","Tu","We","Th","Fr","Sa","Su"]` – genau diese Kürzel, keine anderen Schreibweisen
