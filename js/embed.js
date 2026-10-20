@@ -53,13 +53,17 @@ const calRange  = document.getElementById('cal-range');
 const calLegend = document.getElementById('cal-legend');
 const calDays   = document.getElementById('cal-days');
 const calEmpty  = document.getElementById('cal-empty');
+const calendarView = document.querySelector('.calendar-view');
 
 const isMobile = () => window.matchMedia('(max-width: 980px)').matches;
 let mobileDay = dayIdx(new Date());     /* Tagesansicht am Handy */
 
+const SLOT_MIN       = 15;                         /* Länge eines Slots in Minuten – einzige Quelle fürs Raster */
 const CAL_HOUR_START = 8;
 const CAL_HOUR_END   = 22;                         /* exklusiv */
-const CAL_SLOTS      = (CAL_HOUR_END - CAL_HOUR_START) * 2;
+const CAL_SLOTS      = (CAL_HOUR_END - CAL_HOUR_START) * 60 / SLOT_MIN;
+const SLOTS_PER_HOUR = 60 / SLOT_MIN;
+document.documentElement.style.setProperty('--cal-slots', CAL_SLOTS);
 const DAYS           = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 const DAY_NAMES      = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const MONTH_SHORT    = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -80,8 +84,19 @@ function storeSlug() {
 
 let calWeekStart = mondayOf(new Date());
 
-const slotIndex = t => Math.floor((minutesOf(t) - CAL_HOUR_START * 60) / 30);
-const slotTime  = s => hhmm(CAL_HOUR_START * 60 + s * 30);
+const slotIndex = t => Math.floor((minutesOf(t) - CAL_HOUR_START * 60) / SLOT_MIN);
+const slotTime  = s => hhmm(CAL_HOUR_START * 60 + s * SLOT_MIN);
+
+/* Zeitspalte: volle Stunde kräftig, halbe Stunde nur im ausgeklappten Modus */
+function timeColumn() {
+  let html = '<div class="cal-col cal-col--time"><div class="cal-col__head"></div><div class="cal-col__body">';
+  for (let s = 0; s < CAL_SLOTS; s++) {
+    const hour = s % SLOTS_PER_HOUR === 0;
+    const half = !hour && s % (SLOTS_PER_HOUR / 2) === 0;
+    html += `<div class="cal-time${half ? ' cal-time--half' : ''}">${hour || half ? slotTime(s) : ''}</div>`;
+  }
+  return html + '</div></div>';
+}
 const sameDay = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 const weekDates = monday => [...Array(7)].map((_, i) => { const d = new Date(monday); d.setDate(d.getDate() + i); return d; });
 
@@ -146,12 +161,7 @@ function renderCalendar() {
     return slots;
   });
 
-  /* Zeitspalte */
-  let html = '<div class="cal-col cal-col--time"><div class="cal-col__head"></div><div class="cal-col__body">';
-  for (let s = 0; s < CAL_SLOTS; s++) {
-    html += `<div class="cal-time">${s % 2 === 0 ? slotTime(s) : ''}</div>`;
-  }
-  html += '</div></div>';
+  let html = timeColumn();
 
   /* Tagesleiste (Handy) */
   const mobile = isMobile();
@@ -199,7 +209,6 @@ function renderCalendar() {
       const title = sorted.length > 1 ? `${o.title} +${sorted.length - 1}` : o.title;
       html += `<div class="cal-slot cal-slot--spot cal-hit" data-uid="${first.uid}" style="${catStyle(o.category)}z-index:${z}">
           <div class="cal-slot__inner">
-            <span class="cal-slot__label">${escapeHtml(title)}</span>
             <div class="cal-slot__title">
               <span class="cal-slot__time">${first.time}</span>
               ${o.locked ? icon('lock', 'cal-slot__lock') : ''}
@@ -224,7 +233,7 @@ function renderNowLine() {
   const col = calGrid.querySelector('.cal-col--today');
   if (!col) return;
   const now = new Date();
-  const s = (now.getHours() * 60 + now.getMinutes() - CAL_HOUR_START * 60) / 30;
+  const s = (now.getHours() * 60 + now.getMinutes() - CAL_HOUR_START * 60) / SLOT_MIN;
   if (s < 0 || s >= CAL_SLOTS) return;
   const body = col.querySelector('.cal-col__body');
   /* Slot-Elemente decken die Reihen ab (Quiet-Blöcke mehrere) – Position aus dem DOM */
@@ -275,13 +284,83 @@ calGrid.addEventListener('mousemove', e => {
 
 calGrid.addEventListener('mouseleave', () => setLit(null));
 
-/* ---- Titel dauerhaft anzeigen (reduziert ↔ beschriftet) ---- */
-const calTitles = document.getElementById('cal-titles');
-calTitles.addEventListener('click', () => {
-  const on = !calTitles.classList.contains('is-on');
-  calTitles.classList.toggle('is-on', on);
-  calTitles.setAttribute('aria-checked', String(on));
-  calGrid.classList.toggle('show-titles', on);
+/* ---- Dichte: Collapsed (Farblinien) ↔ Expanded (Slots mit Titel) ----
+   FLIP: das Layout springt sofort in den Zielzustand, sichtbar gleitet es
+   nur per transform – jede Zeile startet an ihrer alten Position und Höhe.
+   Keyframes enthalten nur transform (transform-origin steht fest im CSS),
+   damit der Browser sie auf dem Compositor abspielt; Höhen-Transitions über
+   ~450 Zeilen hätten jeden Frame ein Layout erzwungen (in Safari ruckelig).
+   Das Raster selbst – Fläche und Spaltenlinien – wird per clip-path auf-
+   bzw. zugedeckt: ohne Layout, mit exakten runden Ecken. */
+let densityAnims = [];
+let titleTimer = null;
+
+function morphDensity(value) {
+  setLit(null);
+  calGrid.querySelectorAll('.cal-now').forEach(n => n.remove());
+
+  const rows = [...calGrid.querySelectorAll('.cal-col__body > .cal-time, .cal-col__body > .cal-slot, .cal-col__body > .cal-quiet')];
+  const top0 = calGrid.getBoundingClientRect().top;
+  const first = rows.map(el => el.getBoundingClientRect());
+
+  densityAnims.forEach(a => a.cancel());
+  densityAnims = [];
+  calGrid.style.minHeight = '';
+  const gridFirst = calGrid.getBoundingClientRect().height;
+  calendarView.dataset.density = value;
+
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { renderNowLine(); return; }
+
+  const top1 = calGrid.getBoundingClientRect().top;
+  const last = rows.map(el => el.getBoundingClientRect());
+  const gridLast = calGrid.getBoundingClientRect().height;
+  const css = getComputedStyle(calendarView);
+  const timing = {
+    duration: parseFloat(css.getPropertyValue('--density-dur')) || 560,
+    easing: css.getPropertyValue('--ease').trim() || 'ease',
+  };
+
+  calGrid.classList.add('is-morphing', 'is-hiding-titles');
+  clearTimeout(titleTimer);
+  titleTimer = setTimeout(() => calGrid.classList.remove('is-hiding-titles'), timing.duration * 0.6);
+  rows.forEach((el, i) => {
+    const a = first[i], b = last[i];
+    let from;
+    if (el.classList.contains('cal-time') || el.classList.contains('cal-quiet')) {
+      /* reine Text-Zeilen (Uhrzeit, „Quiet Hour“) nur verschieben (mittig), nie stauchen */
+      const dy = (a.top - top0 + a.height / 2) - (b.top - top1 + b.height / 2);
+      if (Math.abs(dy) < 0.5) return;
+      from = `translateY(${dy}px)`;
+    } else {
+      const dy = (a.top - top0) - (b.top - top1);
+      const sy = b.height ? a.height / b.height : 1;
+      from = `translateY(${dy}px) scaleY(${sy})`;
+    }
+    densityAnims.push(el.animate([{ transform: from }, { transform: 'none' }], timing));
+  });
+
+  /* Raster für die Dauer mindestens so hoch wie das größere der beiden
+     Zustände halten (beim Zuklappen) und den Überstand unten wegclippen */
+  const gridMax = Math.max(gridFirst, gridLast);
+  const radius = getComputedStyle(calGrid).borderTopLeftRadius;
+  const clip = h => `inset(0px 0px ${gridMax - h}px 0px round ${radius})`;
+  calGrid.style.minHeight = `${gridMax}px`;
+  const gridAnim = calGrid.animate([{ clipPath: clip(gridFirst) }, { clipPath: clip(gridLast) }], timing);
+  densityAnims.push(gridAnim);
+
+  gridAnim.finished.then(() => {
+    calGrid.style.minHeight = '';
+    calGrid.classList.remove('is-morphing');
+    renderNowLine();
+  }, () => {});                                   /* abgebrochen: der nächste Wechsel übernimmt */
+}
+
+const densityToggle = document.getElementById('cal-density');
+densityToggle.addEventListener('click', () => {
+  const expanded = densityToggle.getAttribute('aria-checked') !== 'true';
+  densityToggle.setAttribute('aria-checked', String(expanded));
+  densityToggle.dataset.tip = expanded ? 'Collapse' : 'Expand';
+  morphDensity(expanded ? 'expanded' : 'collapsed');
 });
 
 /* ---- Wochennavigation ---- */

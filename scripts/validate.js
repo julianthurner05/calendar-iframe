@@ -23,7 +23,8 @@ const errors = [];
 const err = (file, where, msg) => errors.push(`${file} – ${where}: ${msg}`);
 
 const minutesOf = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-const slotOf = t => Math.floor((minutesOf(t) - RASTER_START) / 30);
+const SLOT_MIN = 15;         /* muss zu SLOT_MIN in js/embed.js passen */
+const slotOf = t => Math.floor((minutesOf(t) - RASTER_START) / SLOT_MIN);
 
 function parseDate(str) {
   const m = DATE_RE.exec(str || '');
@@ -186,7 +187,7 @@ function validateFile(file) {
       validTimes.forEach(t => {
         const s = slotOf(t);
         if (s < 0) return;
-        if (seen.has(s)) err(name, label, `Zeiten ${seen.get(s)} und ${t} liegen im selben 30-Minuten-Slot (nur closing darf das)`);
+        if (seen.has(s)) err(name, label, `Zeiten ${seen.get(s)} und ${t} liegen im selben ${SLOT_MIN}-Minuten-Slot (nur closing darf das)`);
         else seen.set(s, t);
       });
     }
@@ -214,7 +215,7 @@ function validateFile(file) {
           const s = slotOf(x);
           if (s >= 0 && s === slotOf(y) && !isQuiet(di, x) && !isQuiet(di, y)) {
             err(name, `„${A.title}“ / „${B.title}“`,
-              `Slot-Konflikt am ${DAYS[di]}: ${x} und ${y} liegen im selben 30-Minuten-Slot (überlappender Zeitraum ab ${String(from.getDate()).padStart(2, '0')}.${String(from.getMonth() + 1).padStart(2, '0')}.${from.getFullYear()})`);
+              `Slot-Konflikt am ${DAYS[di]}: ${x} und ${y} liegen im selben ${SLOT_MIN}-Minuten-Slot (überlappender Zeitraum ab ${String(from.getDate()).padStart(2, '0')}.${String(from.getMonth() + 1).padStart(2, '0')}.${from.getFullYear()})`);
           }
         }));
       });

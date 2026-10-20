@@ -2,14 +2,38 @@
    CALENDAR – Wochenansicht aller aktiven Schedules
    ================================================================ */
 .calendar-view {
-  --slot-gap: 7px;
-  /* Slots wachsen mit der Fensterhöhe mit: 28 Slots füllen den Platz unterhalb des Kopfes */
-  --slot-h: clamp(17px, calc((100vh - 250px) / 28 - var(--slot-gap)), 32px);
+  /* Collapsed: alle Slots (--cal-slots, aus embed.js) als dünne Farblinien
+     im Platz unterhalb des Kopfes */
+  --slot-gap: 5px;
+  --slot-h: clamp(4px, calc((100vh - 250px) / var(--cal-slots, 56) - var(--slot-gap)), 9px);
+  --slot-radius: 3px;
+  --lit-h: 42px;                 /* Höhe, auf die ein Slot beim Hover aufklappt */
+  --density-dur: 560ms;          /* Gleiten Collapsed ↔ Expanded */
+  --title-fade: 520ms;           /* Einblenden der Slot-Titel danach */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
   width: 100%;
-  margin: auto 0;
+  margin: 0 0 auto;              /* oben verankert: der Kopf bleibt stehen, der Kalender wächst nur nach unten */
   display: flex;
   flex-direction: column;
   animation: view-in 260ms var(--ease);
+}
+
+/* Wechsel Collapsed ↔ Expanded (morphDensity in embed.js): das Layout
+   springt sofort, sichtbar gleiten die Zeilen per transform, und das ganze
+   Raster – Fläche samt Spaltenlinien – wird per clip-path auf- bzw. zugedeckt.
+   Währenddessen keine Hover und keine (sonst gestauchten) Slot-Titel. */
+#cal-grid .cal-slot { transform-origin: top; }
+.cal-grid.is-morphing { pointer-events: none; }
+/* Titel blenden zu Beginn kurz aus und erst gegen Ende des Gleitens
+   (wenn die Slots fast ihre volle Höhe haben) wieder weich ein */
+.cal-grid.is-hiding-titles .cal-slot__title { opacity: 0; transition: opacity 160ms var(--ease); }
+
+/* Expanded: Slots hoch genug für den Titel – der Kalender wird länger als
+   der Viewport und scrollt mit der Seite */
+.calendar-view[data-density="expanded"] {
+  --slot-gap: 4px;
+  --slot-h: 28px;
+  --slot-radius: 6px;
 }
 
 /* ---- Kopf ---- */
@@ -148,24 +172,37 @@
   font-size: 11px;
   letter-spacing: var(--ls-small);
   color: var(--text-40);
+  white-space: nowrap;
+}
+
+/* halbe Stunden nur im Expanded-Modus beschriftet */
+.cal-time--half {
+  opacity: 0;
+  color: var(--text-25);
+  font-size: 10px;
+  transition: opacity var(--dur) var(--ease);
+}
+[data-density="expanded"] .cal-time--half {
+  opacity: 1;
+  transition: opacity var(--title-fade) var(--ease-out) calc(var(--density-dur) * 0.55);
 }
 
 /* Slots */
 /* Stapelung: reine Staffelung von unten nach oben (inline z-index, unterster
-   Slot 1, oberster 28). Ein nach unten aufklappender Slot liegt dadurch
-   immer über seinem Nachbarn – ohne Ebenenwechsel beim Hover. Nur das
-   Popover auf einem leeren Slot hebt seinen Slot auf 100. */
+   Slot 1, oberster = Slotanzahl). Ein nach unten aufklappender Slot liegt
+   dadurch immer über seinem Nachbarn – ohne Ebenenwechsel beim Hover. */
 .cal-slot {
   position: relative;
   height: var(--slot-h);
 }
 
-/* Hit-Test läuft über die fixen Slot-Boxen, nicht über die animierte Fläche */
+/* Hit-Test läuft über die fixen Slot-Boxen, nicht über die animierte Fläche –
+   nur ein aufgeklappter Slot fängt die Maus, damit der Hover nicht abreißt */
 .cal-slot__inner {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border-radius: 6px;
+  border-radius: var(--slot-radius);
   background: var(--white-3);
   will-change: bottom;
   transition:
@@ -177,22 +214,30 @@
 /* außerhalb der Öffnungszeit: fast unsichtbar */
 .cal-slot--closed .cal-slot__inner { background: transparent; }
 
+/* gedämpfte Kategoriefarbe – in beiden Dichten gleich, kräftig nur beim Hover */
 .cal-slot--spot .cal-slot__inner {
   background: color-mix(in srgb, var(--cat) var(--cat-tint), var(--cat-base));
 }
 
-/* Aufklappen nur nach unten, weich – Zuklappen ebenso weich, aber kürzer */
+/* Hover: alle Slots desselben Spots leuchten auf – weich an, kürzer aus */
 .cal-slot.is-lit .cal-slot__inner {
-  bottom: calc(-1 * (var(--slot-h) + var(--slot-gap)));
+  pointer-events: auto;
   background: color-mix(in srgb, var(--cat) var(--cat-tint-strong), var(--cat-base));
   box-shadow: 0 6px 18px rgba(12, 14, 41, 0.45);
   transition:
     background var(--dur-slow) var(--ease),
     bottom var(--dur-slow) var(--ease),
+    border-radius var(--dur-slow) var(--ease),
     box-shadow var(--dur-slow) var(--ease);
 }
 
-/* Inhalt: Uhrzeit links oben, Titel links unten, Stift rechts oben */
+/* Collapsed: die Linie klappt nach unten zu einer Karte mit Zeit & Titel auf */
+[data-density="collapsed"] .cal-slot.is-lit .cal-slot__inner {
+  bottom: calc(var(--slot-h) - var(--lit-h));
+  border-radius: 6px;
+}
+
+/* Inhalt (Collapsed, aufgeklappt): Uhrzeit links oben, Titel links unten, Schloss rechts oben */
 .cal-slot__title {
   position: absolute;
   inset: 0;
@@ -243,34 +288,70 @@
   color: var(--text-55);
 }
 
-/* Titel-Modus: Titel dauerhaft (dunkel) im Slot, beim Hover übernimmt das aufgeklappte Feld */
-.cal-slot__label {
-  position: absolute;
-  inset: 0;
-  display: none;
-  padding: 0 7px;
-  font-size: 10.5px;
-  line-height: var(--slot-h);              /* zentriert – als Block, damit die Ellipse greift */
-  letter-spacing: var(--ls-small);
-  color: var(--text-55);
-  white-space: nowrap;
+/* Expanded: Titel in einer Zeile, immer sichtbar – die Uhrzeit steht schon
+   in der Zeitspalte, der Titel bekommt die volle Breite */
+[data-density="expanded"] .cal-slot__title {
+  opacity: 1;
   overflow: hidden;
-  text-overflow: ellipsis;                 /* lange Titel enden mit …, nicht abgeschnitten */
-  transition: opacity 120ms var(--ease);   /* Hover-Schrift: bewusst schnell – Stand v1 */
-}
-
-.cal-grid.show-titles .cal-slot__label { display: block; }
-.cal-grid.show-titles .cal-slot.is-lit .cal-slot__label { opacity: 0; }
-
-.cal-toggle {
-  display: flex;
+  transition: opacity var(--title-fade) var(--ease-out);
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 1fr;
   align-items: center;
-  gap: 10px;
-  font-size: var(--fs-small);
-  letter-spacing: var(--ls-small);
-  color: var(--text-55);
-  cursor: pointer;
+  column-gap: 6px;
+  padding: 0 3px 0 8px;
 }
+
+[data-density="expanded"] .cal-slot__time { display: none; }
+
+[data-density="expanded"] .cal-slot__text,
+[data-density="expanded"] .cal-slot__lock { grid-row: 1; align-self: center; }
+
+[data-density="expanded"] .cal-slot__text { grid-column: 1; color: var(--text-80); transition: color var(--dur) var(--ease); }
+[data-density="expanded"] .cal-slot__lock { grid-column: 2; margin: 0 6px 0 0; }
+[data-density="expanded"] .cal-slot.is-lit .cal-slot__text { color: #ffffff; }
+
+/* Umschalter Collapsed / Expanded – Pill aus zwei UI-Blautönen: Bahn in
+   Mittelblau, Knopf in Menüblau; jedes Icon steht fest in seiner Hälfte,
+   nur der Knopf gleitet */
+.density-toggle {
+  position: relative;
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  width: 76px;
+  height: 34px;
+  margin-left: 12px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--mittelblau);
+}
+
+.density-toggle__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  border-radius: 999px;
+  background: var(--menu-blau);
+  transition: transform var(--dur) var(--ease);
+}
+
+.density-toggle[aria-checked="true"] .density-toggle__knob { transform: translateX(100%); }
+
+.density-toggle__icon {
+  position: relative;                       /* über dem Knopf */
+  justify-self: center;
+  width: 14px;
+  height: 14px;
+  color: var(--text-40);
+  transition: color var(--dur) var(--ease);
+}
+
+.density-toggle:hover .density-toggle__icon { color: var(--text-55); }
+.density-toggle[aria-checked="false"] .density-toggle__icon--collapsed,
+.density-toggle[aria-checked="true"] .density-toggle__icon--expanded { color: #ffffff; }
 
 
 /* Jetzt-Linie in der heutigen Spalte */
@@ -338,13 +419,17 @@
   color: var(--text-25);
 }
 
+@media (max-width: 1600px) {
+  .cal-hint { display: none; }
+}
+
 @media (max-width: 1240px) {
   .cal-legend { display: none; }
+  .density-toggle { margin-left: auto; }
 }
 
 @media (max-width: 980px) {
   .cal-head { flex-wrap: wrap; gap: 12px; }
-  .cal-hint, .cal-toggle { display: none; }
   .cal-days { display: flex; }
   .cal-grid { grid-template-columns: 50px minmax(0, 1fr); padding-right: 12px; }
   .cal-col__head { display: none; }

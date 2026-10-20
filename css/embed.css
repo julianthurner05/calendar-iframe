@@ -72,33 +72,6 @@ button:focus-visible {
 }
 
 /* ================================================================
-   SWITCH (aus account.css – für den "Show titles"-Toggle)
-   ================================================================ */
-.switch {
-  position: relative;
-  flex-shrink: 0;
-  width: 38px;
-  height: 22px;
-  border-radius: 11px;
-  background: var(--white-14);
-  transition: background var(--transition);
-}
-
-.switch__knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--text-66);
-  transition: transform var(--dur-fast) var(--ease), background var(--transition);
-}
-
-.switch.is-on { background: var(--nav-active); }
-.switch.is-on .switch__knob { background: var(--text-inverse); transform: translateX(16px); }
-
-/* ================================================================
    TOOLTIP – für Buttons, die nur ein Icon zeigen (data-tip="Label")
    ================================================================ */
 [data-tip] { position: relative; }
@@ -128,6 +101,8 @@ button:focus-visible {
   translate: -50% 0;
   transition-delay: 200ms;
 }
+
+[data-tip][data-tip-pos="bottom"]::after { bottom: auto; top: calc(100% + 8px); }
 
 /* ================================================================
    FEHLERMELDUNG – wenn der Datensatz nicht geladen werden kann

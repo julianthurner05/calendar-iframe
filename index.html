@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/embed.css">
-  <link rel="stylesheet" href="css/calendar.css">
+  <link rel="stylesheet" href="css/tokens.css?v=20261020">
+  <link rel="stylesheet" href="css/embed.css?v=20261020">
+  <link rel="stylesheet" href="css/calendar.css?v=20261020">
 </head>
 <body>
 
@@ -18,6 +18,8 @@
   <svg class="sprite" aria-hidden="true">
     <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
     <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chevrons-down-up" viewBox="0 0 24 24"><path d="m7 20 5-5 5 5"/><path d="m7 4 5 5 5-5"/></symbol>
+    <symbol id="i-chevrons-up-down" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
   </svg>
@@ -25,7 +27,7 @@
   <main class="embed-main">
 
     <!-- Calendar – identisches Gerüst wie im SpotTool, ohne Edit-Funktionen -->
-    <section class="calendar-view" data-screen="calendar">
+    <section class="calendar-view" data-screen="calendar" data-density="collapsed">
       <div class="cal-head">
         <h1 class="cal-head__title" id="cal-store">Announcement Calendar</h1>
         <div class="cal-week">
@@ -39,11 +41,12 @@
         </div>
         <button class="cal-today" id="cal-today">Today</button>
         <div class="cal-legend" id="cal-legend"></div>
-        <span class="cal-hint">Every slot represents 30 minutes.</span>
-        <label class="cal-toggle">
-          <span>Show titles</span>
-          <button class="switch" id="cal-titles" role="switch" aria-checked="false"><span class="switch__knob"></span></button>
-        </label>
+        <span class="cal-hint">Every slot represents 15 minutes.</span>
+        <button class="density-toggle" id="cal-density" type="button" role="switch" aria-checked="false" aria-label="Expanded view" data-tip="Expand" data-tip-pos="bottom">
+          <span class="density-toggle__knob"></span>
+          <svg class="icon density-toggle__icon density-toggle__icon--collapsed"><use href="#i-chevrons-down-up"/></svg>
+          <svg class="icon density-toggle__icon density-toggle__icon--expanded"><use href="#i-chevrons-up-down"/></svg>
+        </button>
       </div>
       <div class="cal-days" id="cal-days"></div>
       <div class="cal-grid" id="cal-grid"></div>
@@ -52,6 +55,6 @@
 
   </main>
 
-  <script src="js/embed.js"></script>
+  <script src="js/embed.js?v=20261020"></script>
 </body>
 </html>
