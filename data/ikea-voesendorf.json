@@ -296,9 +296,8 @@
       "type": "weekly",
       "start": "31.08.2026",
       "end": "26.09.2026",
-      "category": "closing",
-      "locked": true,
       "title": "Café Bar Schlussdurchsage",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -679,9 +678,8 @@
       "type": "weekly",
       "start": "28.09.2026",
       "end": "14.11.2026",
-      "category": "closing",
-      "locked": true,
       "title": "Café Bar Schlussdurchsage",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -695,9 +693,8 @@
       "type": "weekly",
       "start": "28.09.2026",
       "end": "14.11.2026",
-      "category": "closing",
-      "locked": true,
       "title": "Café Bar Schlussdurchsage (Freitag)",
+      "category": "standard",
       "days": [
         "Fr"
       ],
@@ -831,7 +828,7 @@
       "start": "01.12.2026",
       "end": "23.12.2026",
       "title": "Weihnachtsöffnungszeiten Hinweis",
-      "category": "special",
+      "category": "commercial",
       "days": [
         "Mo",
         "Tu",
