@@ -31,14 +31,14 @@
   "quietHours": [
     {
       "day": 2,
-      "from": "16:00",
-      "to": "18:00"
+      "from": "17:00",
+      "to": "19:30"
     }
   ],
   "schedules": [
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "title": "IKEA FOOD Frühstücksangebot",
       "category": "commercial",
       "days": [
@@ -50,20 +50,19 @@
         "Sa"
       ],
       "times": [
-        "09:00",
+        "09:02",
         "09:45"
       ]
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "title": "IKEA FAMILY Durchsage",
       "category": "standard",
       "days": [
         "Mo",
         "Tu",
-        "Th",
-        "Fr"
+        "Th"
       ],
       "times": [
         "10:00",
@@ -74,24 +73,11 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "IKEA FAMILY Durchsage (Mittwoch)",
+      "start": "28.09.2026",
+      "title": "IKEA FAMILY Durchsage (Mittwoch & Samstag)",
       "category": "standard",
       "days": [
-        "We"
-      ],
-      "times": [
-        "10:00",
-        "13:00",
-        "19:00"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
-      "title": "IKEA FAMILY Durchsage (Samstag)",
-      "category": "standard",
-      "days": [
+        "We",
         "Sa"
       ],
       "times": [
@@ -102,9 +88,25 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "SCAN & PAY Durchsage",
+      "start": "28.09.2026",
+      "title": "IKEA FAMILY Durchsage (Freitag)",
       "category": "standard",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00",
+        "19:00",
+        "20:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "Weihnachtsmarkt Durchsage",
+      "category": "commercial",
       "days": [
         "Mo",
         "Tu",
@@ -114,29 +116,106 @@
       "times": [
         "10:30",
         "12:30",
+        "14:30",
+        "16:30",
+        "18:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "Weihnachtsmarkt Durchsage (Mittwoch & Samstag)",
+      "category": "commercial",
+      "days": [
+        "We",
+        "Sa"
+      ],
+      "times": [
+        "10:30",
+        "12:30",
+        "14:30",
+        "16:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "SMÅLAND Kipa Durchsage",
+      "category": "special",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "13:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "SMÅLAND Kipa Durchsage (Samstag)",
+      "category": "special",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "10:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "IKEA Geschenkkarte Durchsage",
+      "category": "standard",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "11:00",
+        "14:00",
+        "17:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "IKEA Geschenkkarte Durchsage (Mittwoch)",
+      "category": "standard",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "11:00",
+        "14:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "title": "Neuer Gesenkter Preis Durchsage",
+      "category": "commercial",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th"
+      ],
+      "times": [
+        "11:30",
+        "13:30",
         "15:30",
         "17:30"
       ]
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "SCAN & PAY Durchsage (Mittwoch)",
-      "category": "standard",
+      "start": "28.09.2026",
+      "title": "Neuer Gesenkter Preis Durchsage (Mittwoch & Samstag)",
+      "category": "commercial",
       "days": [
-        "We"
-      ],
-      "times": [
-        "10:30",
-        "12:30"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
-      "title": "SCAN & PAY Durchsage (Samstag)",
-      "category": "standard",
-      "days": [
+        "We",
         "Sa"
       ],
       "times": [
@@ -147,77 +226,28 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "IKEA Geschenkkarte Durchsage",
-      "category": "standard",
-      "days": [
-        "Mo",
-        "Tu",
-        "We",
-        "Th",
-        "Fr",
-        "Sa"
-      ],
-      "times": [
-        "11:00",
-        "14:00"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
-      "title": "Neuer Gesenkter Preis Durchsage",
+      "start": "28.09.2026",
+      "title": "Neuer Gesenkter Preis Durchsage (Freitag)",
       "category": "commercial",
       "days": [
-        "Mo",
-        "Tu",
-        "Th",
         "Fr"
       ],
       "times": [
         "11:30",
-        "14:30",
-        "16:30",
-        "18:30"
+        "13:30",
+        "15:30",
+        "17:30",
+        "19:30"
       ]
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "Neuer Gesenkter Preis (Mittwoch)",
-      "category": "commercial",
-      "days": [
-        "We"
-      ],
-      "times": [
-        "11:30",
-        "14:30",
-        "18:30"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
-      "title": "Neuer Gesenkter Preis (Samstag)",
-      "category": "commercial",
-      "days": [
-        "Sa"
-      ],
-      "times": [
-        "12:30",
-        "14:30",
-        "16:30"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
-      "title": "ZLS Durchsage",
+      "start": "28.09.2026",
+      "title": "Zweite Chance Markt Durchsage",
       "category": "standard",
       "days": [
         "Mo",
         "Tu",
-        "We",
         "Th",
         "Fr"
       ],
@@ -229,10 +259,11 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "ZLS Durchsage (Samstag)",
+      "start": "28.09.2026",
+      "title": "Zweite Chance Markt Durchsage (Mittwoch & Samstag)",
       "category": "standard",
       "days": [
+        "We",
         "Sa"
       ],
       "times": [
@@ -242,60 +273,47 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
-      "title": "SMÅLAND Kipa Durchsage",
-      "category": "special",
-      "days": [
-        "Fr"
-      ],
-      "times": [
-        "13:30"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
-      "title": "SMÅLAND Kipa Durchsage (Samstag)",
-      "category": "special",
-      "days": [
-        "Sa"
-      ],
-      "times": [
-        "10:30"
-      ]
-    },
-    {
-      "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "title": "Stille Stunde Durchsage",
       "category": "special",
       "days": [
         "We"
       ],
       "times": [
-        "15:45"
+        "16:45"
       ]
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "Café Bar Schlussdurchsage",
       "days": [
         "Mo",
         "Tu",
-        "Th",
-        "Fr",
-        "Sa"
+        "Th"
       ],
       "times": [
-        "17:10"
+        "17:15"
       ]
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "Café Bar Schlussdurchsage (Freitag)",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "18:15"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "1. Schlussdurchsage",
@@ -311,7 +329,7 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "2. Schlussdurchsage",
@@ -327,7 +345,7 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "3. Schlussdurchsage",
@@ -343,7 +361,7 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "4. Schlussdurchsage",
@@ -359,7 +377,7 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "Schlussdurchsagen 1–4 (Freitag)",
@@ -375,7 +393,7 @@
     },
     {
       "type": "weekly",
-      "start": "31.08.2026",
+      "start": "28.09.2026",
       "category": "closing",
       "locked": true,
       "title": "Schlussdurchsagen 1–4 (Samstag)",
