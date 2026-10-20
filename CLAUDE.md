@@ -79,7 +79,7 @@ Feldregeln:
 node scripts/validate.js
 ```
 
-Prüft alle `data/*.json` gegen die Validierungsregeln oben und bricht bei Verstößen mit Exit-Code 1 und klarer Fehlermeldung ab. **Vor jedem Commit von Datenänderungen läuft dieses Skript.**
+Prüft alle `data/*.json` gegen die Validierungsregeln oben und bricht bei Verstößen mit Exit-Code 1 und klarer Fehlermeldung ab. Abgelaufene Schedules (`end` in der Vergangenheit) bleiben als Historie stehen und werden nur noch auf Format geprüft, nicht mehr auf Öffnungszeiten, Quiet Hours und Slot-Konflikte – Quiet Hours gelten im Schema für alle Zeiträume, alte Pläne würden sonst nach jeder Änderung rot. **Vor jedem Commit von Datenänderungen läuft dieses Skript.**
 
 ```bash
 python3 -m http.server 8000

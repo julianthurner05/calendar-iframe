@@ -80,6 +80,9 @@ function daysOf(o) {
   return (o.days || []).map(code => DAYS.indexOf(code)).filter(i => i >= 0);
 }
 
+const TODAY = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+const isExpired = o => { const r = rangeOf(o); return !!r && r[1] < TODAY; };
+
 function validateFile(file) {
   const name = `data/${file}`;
   let data;
@@ -149,6 +152,10 @@ function validateFile(file) {
     if (!times.length) err(name, label, 'times ist leer');
     times.forEach(t => { if (!TIME_RE.test(t)) err(name, label, `Zeit ${JSON.stringify(t)} ist kein "HH:MM"`); });
 
+    /* Planungsregeln nur für laufende/künftige Schedules – abgelaufene bleiben
+       als Historie stehen, auch wenn sich Quiet Hours seither geändert haben */
+    if (isExpired(o)) return;
+
     const validTimes = times.filter(t => TIME_RE.test(t));
     const dayIdxs = daysOf(o);
 
@@ -198,6 +205,7 @@ function validateFile(file) {
     for (let b = a + 1; b < schedules.length; b++) {
       const A = schedules[a], B = schedules[b];
       if (A.category === 'closing' && B.category === 'closing') continue;
+      if (isExpired(A) || isExpired(B)) continue;
 
       const rA = rangeOf(A), rB = rangeOf(B);
       if (!rA || !rB) continue;   /* Datumsfehler wurden oben gemeldet */
