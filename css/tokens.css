@@ -42,14 +42,14 @@
   --gelb-ink:       #57481d;                 /* Schrift auf --gelb-soft */
 
   /* ---- Kategorien (Scheduler) ---- */
-  --cat-food:       var(--gelb);
-  --cat-marketing:  var(--gruen);
+  --cat-standard:   var(--gruen);
+  --cat-commercial: var(--gelb);
   --cat-special:    var(--rot);
   --cat-closing:    var(--blau);
   --cat-tint:        14%;   /* Kategoriefarbe auf Flächen (Karten, Editor, Kalender-Slots) */
   --cat-tint-strong: 46%;   /* hervorgehobener Slot im Kalender */
-  --cat-tint-food:   22%;   /* Gelb braucht mehr Anteil, um gleich hell zu wirken */
-  --cat-tint-food-strong: 58%;
+  --cat-tint-commercial:   22%;   /* Gelb braucht mehr Anteil, um gleich hell zu wirken */
+  --cat-tint-commercial-strong: 58%;
   --cat-base:        var(--card-bg);   /* Grundfläche, in die gemischt wird */
 
   /* ---- Account-Banner: Foto (einzige Quelle – kein <img> im HTML). Beispiel

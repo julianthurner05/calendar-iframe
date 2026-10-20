@@ -2,10 +2,12 @@
    CALENDAR – Wochenansicht aller aktiven Schedules
    ================================================================ */
 .calendar-view {
-  /* Collapsed: alle Slots (--cal-slots, aus embed.js) als dünne Farblinien
-     im Platz unterhalb des Kopfes */
+  /* Collapsed: alle Zeilen (--cal-slots, aus embed.js) als dünne Farblinien –
+     15 % höher als der Platz unterhalb des Kopfes, weil das IFrame meist in
+     ein schmales, hohes Feld eingebettet ist (Obergrenze mitgestreckt) */
   --slot-gap: 5px;
-  --slot-h: clamp(4px, calc((100vh - 250px) / var(--cal-slots, 56) - var(--slot-gap)), 9px);
+  --collapsed-stretch: 1.15;
+  --slot-h: clamp(4px, calc((100vh - 250px) * var(--collapsed-stretch) / var(--cal-slots, 56) - var(--slot-gap)), 11px);
   --slot-radius: 3px;
   --lit-h: 42px;                 /* Höhe, auf die ein Slot beim Hover aufklappt */
   --density-dur: 560ms;          /* Gleiten Collapsed ↔ Expanded */

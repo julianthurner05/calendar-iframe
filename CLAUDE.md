@@ -34,7 +34,7 @@ An `index.html`, `css/` oder `js/` wird bei Datenpflege NIE etwas geändert. Cod
   "schedules": [
     {
       "title": "IKEA FAMILY Durchsage",
-      "category": "marketing",
+      "category": "standard",
       "type": "weekly",
       "start": "31.08.2026",
       "end": "26.09.2026",
@@ -51,7 +51,7 @@ Feldregeln:
 - `quietHours`: `day` ist 0 = Montag … 6 = Sonntag; in diesen Fenstern läuft nichts (der Kalender zeichnet sie als gesperrten Block).
 - `schedules[]`:
   - `title`: frei, so wie der Spot heißt
-  - `category`: exakt einer von `food` | `marketing` | `special` | `closing` – nichts anderes, keine neuen Kategorien erfinden
+  - `category`: exakt einer von `closing` (Opening/Closing, blau) | `standard` (grün) | `commercial` (gelb) | `special` (rot) – nichts anderes, keine neuen Kategorien erfinden. Die Anzeigenamen stehen in `CATEGORIES` in `js/embed.js`
   - `type`: `weekly` (wiederkehrend, braucht `days`) oder `single` (einmalig, läuft nur am `start`-Datum, `days`/`end` entfallen)
   - `start` / `end`: Format exakt `dd.mm.yyyy`. `end` ist optional (ohne `end` läuft der Schedule unbefristet)
   - `days`: Teilmenge von exakt `["Mo","Tu","We","Th","Fr","Sa","Su"]` – genau diese Kürzel, keine anderen Schreibweisen
@@ -60,9 +60,9 @@ Feldregeln:
 
 ## Validierungsregeln (vor jedem Commit prüfen)
 
-1. **Öffnungszeiten:** Jede Zeit in `times` muss an jedem Tag in `days` innerhalb der Öffnungszeit liegen (≥ Öffnung, < Schließung). Einzige Ausnahme: `category: "closing"` darf bis EINSCHLIESSLICH Schließzeit liegen (z. B. 20:00 bei Schließung 20:00).
+1. **Öffnungszeiten:** Jede Zeit in `times` muss an jedem Tag in `days` innerhalb der Öffnungszeit liegen (≥ Öffnung, < Schließung). Einzige Ausnahme: `category: "closing"` (Opening/Closing) darf bis EINSCHLIESSLICH Schließzeit liegen (z. B. 20:00 bei Schließung 20:00).
 2. **Quiet Hours:** Keine Zeit darf in ein Quiet-Hour-Fenster des jeweiligen Tages fallen. (Der Renderer würde sie stumm ausfiltern – solche Einträge sind Datenmüll und dürfen gar nicht erst entstehen.)
-3. **Ein Spot pro Slot:** Der Kalender rastert in 15-Minuten-Slots (08:00–22:00, 56 Slots pro Tag; zentrale Konstante `SLOT_MIN` in `js/embed.js` und `scripts/validate.js`, beide müssen übereinstimmen). Pro Tag und Slot darf nur EIN Schedule eine Zeit haben – Ausnahme sind mehrere `closing`-Zeiten im selben Slot (werden als „+N" zusammengefasst). Bei Konflikt mit einem bestehenden Schedule: rückfragen, nicht selbst umlegen.
+3. **Ein Spot pro Slot:** Der Kalender rastert in 15-Minuten-Slots (08:00–22:00, 56 Slots pro Tag; zentrale Konstante `SLOT_MIN` in `js/embed.js` und `scripts/validate.js`, beide müssen übereinstimmen). Pro Tag und Slot darf nur EIN Schedule eine Zeit haben – Ausnahme sind mehrere `closing`-Zeiten im selben Slot: Die passen bewusst nicht ins Raster und bekommen je eine eigene Zeile (der Slot wird dafür für die ganze Woche gestreckt, z. B. 19:45 + 19:55). Bei Konflikt mit einem bestehenden Schedule: rückfragen, nicht selbst umlegen.
 4. **Kalenderraster:** Zeiten vor 08:00 oder ab 22:00 werden nicht angezeigt – falls ein Kunde so etwas wünscht, darauf hinweisen statt eintragen.
 5. **Wochentags-Varianten:** Wenn ein Spot an Tagen mit abweichenden Regeln andere Zeiten braucht (z. B. Mittwoch wegen Quiet Hour, Samstag wegen kürzerer Öffnung), wird er als eigener Schedule-Eintrag mit Suffix im Titel geführt, z. B. `"IKEA FAMILY Durchsage (Mittwoch)"` – so ist es im Bestand gelöst, dieses Muster beibehalten.
 6. **JSON-Hygiene:** Gültiges JSON, UTF-8, keine Kommentare, keine trailing commas. Bestehende Feldreihenfolge und Einrückung (2 Spaces) beibehalten.
@@ -118,10 +118,11 @@ Deployment-Detail: Das Projekt läuft als **Cloudflare Worker** (Name `calendar-
 
 - **Nicht-Indexierung:** `<meta name="robots">` in index.html, `robots.txt` und `X-Robots-Tag` in `_headers` – keines davon entfernen oder aufweichen.
 - **Framing:** `frame-ancestors` in `_headers` erlaubt Einbettung von sound-dna.com, sound-dna.media (jeweils inkl. Subdomains) sowie – vorläufig für Dev-Tests – localhost/127.0.0.1. Neue erlaubte Einbettungs-Domains nur auf ausdrückliche Anweisung ergänzen.
-- **Caching:** HTML und JSON laufen mit `no-store` (Kunden sollen nach einem Push sofort den neuen Stand sehen), css/js mit max-age 86400. So lassen. Deshalb bei jeder Code-/CSS-Änderung die Versionskennung `?v=…` an den css/js-Links in `index.html` hochzählen (Datum `JJJJMMTT`), sonst laufen Besucher bis zu 24 h mit alter css/js gegen die neue HTML.
+- **Caching:** HTML und JSON laufen mit `no-store` (Kunden sollen nach einem Push sofort den neuen Stand sehen), css/js mit max-age 86400. So lassen. Deshalb bei jeder Code-/CSS-Änderung die Versionskennung `?v=…` an den css/js-Links in `index.html` hochzählen (Datum `JJJJMMTT`, bei mehreren Änderungen am selben Tag mit `-2`, `-3` …), sonst laufen Besucher bis zu 24 h mit alter css/js gegen die neue HTML.
 - **Design:** Das Erscheinungsbild ist 1:1 aus dem SpotTool übernommen (dunkles Design, tokens.css). Bei Code-Arbeit: ausschließlich bestehende CSS-Variablen aus tokens.css verwenden, keine neuen Tokens und keine harten Werte einführen, keine ungefragten Zusatzelemente ins UI.
 - Der Kalender ist strikt read-only – keine Edit-, Klick- oder Formulier-Funktionen einbauen. Bearbeitung passiert ausschließlich über diese JSON-Dateien. (Deshalb fehlt auch der Bearbeiten-Stift aus dem SpotTool-Kalender.)
-- **Dichte-Umschalter:** Collapsed (Standard, ganzer Tag als dünne Linien) ↔ Expanded (28px-Slots mit Titel). Gesteuert nur über `data-density` an `.calendar-view` und CSS-Variablen; der Wechsel animiert per FLIP (`morphDensity` in `js/embed.js`) ausschließlich `transform` und `clip-path` – keine Höhen-Transitions einführen (Safari ruckelt sonst). 1:1 aus dem SpotTool (Repo `service-portal-dummy`) übernommen.
+- **Dichte-Umschalter:** Collapsed (Standard, ganzer Tag als dünne Linien, per `--collapsed-stretch` 15 % höher als der freie Platz, da das IFrame meist schmal und hoch eingebettet ist) ↔ Expanded (28px-Slots mit Titel). Gesteuert nur über `data-density` an `.calendar-view` und CSS-Variablen; der Wechsel animiert per FLIP (`morphDensity` in `js/embed.js`) ausschließlich `transform` und `clip-path` – keine Höhen-Transitions einführen (Safari ruckelt sonst). 1:1 aus dem SpotTool (Repo `service-portal-dummy`) übernommen.
+- **Keine sichtbare Scrollbar:** `.embed-main` blendet die native Scrollbar aus (`scrollbar-width: none`), damit sie im IFrame beim Aufklappen keine Breite belegt. Nicht durch `scrollbar-gutter` o. Ä. ersetzen.
 
 ## Signierte Embed-URLs (worker/index.js)
 

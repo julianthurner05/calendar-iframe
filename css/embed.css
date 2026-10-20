@@ -55,16 +55,18 @@ button:focus-visible {
 /* ================================================================
    MAIN-GERÜST – eine Spalte, füllt das IFrame
    ================================================================ */
+/* Scrollbar ausgeblendet: im IFrame würde sie beim Aufklappen (Expanded)
+   Breite belegen und den Kalender schmaler schieben – gescrollt wird
+   weiterhin per Mausrad, Trackpad und Touch */
 .embed-main {
   height: 100%;
   overflow-y: auto;
-  scrollbar-gutter: stable both-edges;
+  scrollbar-width: none;
   display: flex;
   justify-content: center;
 }
 
-.embed-main::-webkit-scrollbar { width: 4px; }
-.embed-main::-webkit-scrollbar-thumb { background: var(--white-14); border-radius: 2px; }
+.embed-main::-webkit-scrollbar { display: none; }
 
 @keyframes view-in {
   from { opacity: 0; transform: translateY(4px); }

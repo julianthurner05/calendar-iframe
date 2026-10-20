@@ -13,7 +13,7 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-const CATEGORIES = ['food', 'marketing', 'special', 'closing'];
+const CATEGORIES = ['closing', 'standard', 'commercial', 'special'];
 const RASTER_START = 8 * 60;   /* 08:00 – Zeiten davor werden nicht angezeigt */
 const RASTER_END = 22 * 60;    /* 22:00 exklusiv */
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;

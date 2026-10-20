@@ -31,17 +31,17 @@ const icon = (name, cls = '') => `<svg class="icon${cls ? ' ' + cls : ''}">${use
 
 /* ---- Kategorien (aus schedule.js übernommen) ---- */
 const CATEGORIES = [
-  { value: 'food',      label: 'Food',      color: 'var(--cat-food)' },
-  { value: 'marketing', label: 'Marketing', color: 'var(--cat-marketing)' },
-  { value: 'special',   label: 'Special',   color: 'var(--cat-special)' },
-  { value: 'closing',   label: 'Closing',   color: 'var(--cat-closing)' },
+  { value: 'closing',    label: 'Opening/Closing', color: 'var(--cat-closing)' },
+  { value: 'standard',   label: 'Standard',        color: 'var(--cat-standard)' },
+  { value: 'commercial', label: 'Commercial',      color: 'var(--cat-commercial)' },
+  { value: 'special',    label: 'Special',         color: 'var(--cat-special)' },
 ];
 const catOf    = id => CATEGORIES.find(c => c.value === id) || {};
 const catColor = id => catOf(id).color || 'transparent';
 
 function catVars(id) {
   const v = { '--cat': catColor(id), '--cat-tint': '', '--cat-tint-strong': '' };
-  if (id === 'food') { v['--cat-tint'] = 'var(--cat-tint-food)'; v['--cat-tint-strong'] = 'var(--cat-tint-food-strong)'; }
+  if (id === 'commercial') { v['--cat-tint'] = 'var(--cat-tint-commercial)'; v['--cat-tint-strong'] = 'var(--cat-tint-commercial-strong)'; }
   return v;
 }
 const catStyle = id => Object.entries(catVars(id)).filter(([, v]) => v).map(([k, v]) => `${k}:${v};`).join('');
@@ -87,13 +87,15 @@ let calWeekStart = mondayOf(new Date());
 const slotIndex = t => Math.floor((minutesOf(t) - CAL_HOUR_START * 60) / SLOT_MIN);
 const slotTime  = s => hhmm(CAL_HOUR_START * 60 + s * SLOT_MIN);
 
-/* Zeitspalte: volle Stunde kräftig, halbe Stunde nur im ausgeklappten Modus */
-function timeColumn() {
+/* Zeitspalte: volle Stunde kräftig, halbe Stunde nur im ausgeklappten Modus;
+   gestreckte Slots (rowsPer > 1) bekommen leere Zusatzzeilen */
+function timeColumn(rowsPer) {
   let html = '<div class="cal-col cal-col--time"><div class="cal-col__head"></div><div class="cal-col__body">';
   for (let s = 0; s < CAL_SLOTS; s++) {
     const hour = s % SLOTS_PER_HOUR === 0;
     const half = !hour && s % (SLOTS_PER_HOUR / 2) === 0;
     html += `<div class="cal-time${half ? ' cal-time--half' : ''}">${hour || half ? slotTime(s) : ''}</div>`;
+    html += '<div class="cal-time"></div>'.repeat(rowsPer[s] - 1);
   }
   return html + '</div></div>';
 }
@@ -161,7 +163,14 @@ function renderCalendar() {
     return slots;
   });
 
-  let html = timeColumn();
+  /* Zeilen je Slot: mehrere Opening/Closing-Zeiten im selben Slot passen
+     nicht ins Raster und bekommen je eine eigene Zeile – der Slot wird für
+     die ganze Woche gestreckt, damit Zeitspalte und alle Tage bündig bleiben */
+  const rowsPer = [...Array(CAL_SLOTS)].map((_, s) => Math.max(1, ...grid.map(slots => slots[s].spots.length)));
+  const totalRows = rowsPer.reduce((a, b) => a + b, 0);
+  calendarView.style.setProperty('--cal-slots', totalRows);
+
+  let html = timeColumn(rowsPer);
 
   /* Tagesleiste (Handy) */
   const mobile = isMobile();
@@ -184,6 +193,10 @@ function renderCalendar() {
       <div class="cal-col__body">`;
 
     let skip = 0;
+    let row = 0;                             /* laufende Zeile – für die Stapelung */
+    const emptyRow = (s, closed) =>
+      `<div class="cal-slot${closed ? ' cal-slot--closed' : ''}" data-slot="${s}" style="z-index:${totalRows - row++}"><div class="cal-slot__inner"></div></div>`;
+
     slots.forEach((slot, s) => {
       if (skip > 0) { skip--; return; }
 
@@ -192,30 +205,26 @@ function renderCalendar() {
         let n = 1;
         while (slots[s + n] && slots[s + n].quiet && !slots[s + n].spots.length) n++;
         skip = n - 1;
-        html += `<div class="cal-quiet" data-rows="${n}" style="height: calc(${n} * var(--slot-h) + ${n - 1} * var(--slot-gap))">Quiet Hour</div>`;
+        const rows = rowsPer.slice(s, s + n).reduce((a, b) => a + b, 0);
+        row += rows;
+        html += `<div class="cal-quiet" data-slot="${s}" data-span="${n}" style="height: calc(${rows} * var(--slot-h) + ${rows - 1} * var(--slot-gap))">Quiet Hour</div>`;
         return;
       }
 
-      const z = CAL_SLOTS - s;               /* oben liegt über unten */
-      if (!slot.spots.length) {
-        html += `<div class="cal-slot${slot.closed ? ' cal-slot--closed' : ''}" data-slot="${s}" style="z-index:${z}"><div class="cal-slot__inner"></div></div>`;
-        return;
-      }
-
-      /* ein Spot pro Slot – mehrere (nur Closing) werden zusammengefasst */
+      /* ein Spot pro Zeile – mehrere (nur Opening/Closing) stehen untereinander */
       const sorted = [...slot.spots].sort((a, b) => minutesOf(a.time) - minutesOf(b.time));
-      const first = sorted[0];
-      const o = first.o;
-      const title = sorted.length > 1 ? `${o.title} +${sorted.length - 1}` : o.title;
-      html += `<div class="cal-slot cal-slot--spot cal-hit" data-uid="${first.uid}" style="${catStyle(o.category)}z-index:${z}">
+      sorted.forEach(({ o, uid, time }) => {
+        html += `<div class="cal-slot cal-slot--spot cal-hit" data-slot="${s}" data-uid="${uid}" style="${catStyle(o.category)}z-index:${totalRows - row++}">
           <div class="cal-slot__inner">
             <div class="cal-slot__title">
-              <span class="cal-slot__time">${first.time}</span>
+              <span class="cal-slot__time">${time}</span>
               ${o.locked ? icon('lock', 'cal-slot__lock') : ''}
-              <span class="cal-slot__text">${escapeHtml(title)}</span>
+              <span class="cal-slot__text">${escapeHtml(o.title)}</span>
             </div>
           </div>
         </div>`;
+      });
+      for (let r = sorted.length; r < rowsPer[s]; r++) html += emptyRow(s, slot.closed);
     });
 
     html += '</div></div>';
@@ -236,19 +245,22 @@ function renderNowLine() {
   const s = (now.getHours() * 60 + now.getMinutes() - CAL_HOUR_START * 60) / SLOT_MIN;
   if (s < 0 || s >= CAL_SLOTS) return;
   const body = col.querySelector('.cal-col__body');
-  /* Slot-Elemente decken die Reihen ab (Quiet-Blöcke mehrere) – Position aus dem DOM */
-  let row = 0;
-  for (const el of body.querySelectorAll('.cal-slot, .cal-quiet')) {
-    const span = parseInt(el.dataset.rows, 10) || 1;
-    if (Math.floor(s) < row + span) {
-      const line = document.createElement('div');
-      line.className = 'cal-now';
-      line.style.top = `${el.offsetTop + (s - row) / span * el.offsetHeight}px`;
-      body.appendChild(line);
-      return;
-    }
-    row += span;
-  }
+  /* Elemente des aktuellen Slots (gestreckte Slots: mehrere Zeilen, Quiet-Block:
+     mehrere Slots) – Position aus dem DOM */
+  const covers = el => {
+    const a = parseInt(el.dataset.slot, 10), n = parseInt(el.dataset.span, 10) || 1;
+    return Math.floor(s) >= a && Math.floor(s) < a + n;
+  };
+  const els = [...body.querySelectorAll('.cal-slot, .cal-quiet')].filter(covers);
+  if (!els.length) return;
+  const start = parseInt(els[0].dataset.slot, 10);
+  const span = parseInt(els[0].dataset.span, 10) || 1;
+  const top = els[0].offsetTop;
+  const last = els[els.length - 1];
+  const line = document.createElement('div');
+  line.className = 'cal-now';
+  line.style.top = `${top + (s - start) / span * (last.offsetTop + last.offsetHeight - top)}px`;
+  body.appendChild(line);
 }
 
 setInterval(renderNowLine, 60000);
