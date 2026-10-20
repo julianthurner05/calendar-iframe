@@ -31,8 +31,8 @@
   "quietHours": [
     {
       "day": 2,
-      "from": "16:00",
-      "to": "18:00"
+      "from": "17:00",
+      "to": "19:30"
     }
   ],
   "schedules": [
@@ -399,6 +399,401 @@
       "type": "weekly",
       "start": "31.08.2026",
       "end": "26.09.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "Schlussdurchsagen 1–4 (Samstag)",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "17:30",
+        "17:45",
+        "17:55",
+        "18:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "IKEA FOOD Frühstücksangebot",
+      "category": "commercial",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "09:02",
+        "09:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "IKEA FAMILY Durchsage",
+      "category": "standard",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th"
+      ],
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00",
+        "19:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "IKEA FAMILY Durchsage (Mittwoch & Samstag)",
+      "category": "standard",
+      "days": [
+        "We",
+        "Sa"
+      ],
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "IKEA FAMILY Durchsage (Freitag)",
+      "category": "standard",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00",
+        "19:00",
+        "20:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Weihnachtsmarkt Durchsage",
+      "category": "commercial",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "10:30",
+        "12:30",
+        "14:30",
+        "16:30",
+        "18:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Weihnachtsmarkt Durchsage (Mittwoch & Samstag)",
+      "category": "commercial",
+      "days": [
+        "We",
+        "Sa"
+      ],
+      "times": [
+        "10:30",
+        "12:30",
+        "14:30",
+        "16:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "SMÅLAND Kipa Durchsage",
+      "category": "special",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "13:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "SMÅLAND Kipa Durchsage (Samstag)",
+      "category": "special",
+      "days": [
+        "Sa"
+      ],
+      "times": [
+        "10:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "IKEA Geschenkkarte Durchsage",
+      "category": "standard",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "times": [
+        "11:00",
+        "14:00",
+        "17:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "IKEA Geschenkkarte Durchsage (Mittwoch)",
+      "category": "standard",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "11:00",
+        "14:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Neuer Gesenkter Preis Durchsage",
+      "category": "commercial",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th"
+      ],
+      "times": [
+        "11:30",
+        "13:30",
+        "15:30",
+        "17:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Neuer Gesenkter Preis Durchsage (Mittwoch & Samstag)",
+      "category": "commercial",
+      "days": [
+        "We",
+        "Sa"
+      ],
+      "times": [
+        "11:30",
+        "13:30",
+        "15:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Neuer Gesenkter Preis Durchsage (Freitag)",
+      "category": "commercial",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "11:30",
+        "13:30",
+        "15:30",
+        "17:30",
+        "19:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Zweite Chance Markt Durchsage",
+      "category": "standard",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th",
+        "Fr"
+      ],
+      "times": [
+        "12:00",
+        "15:00",
+        "18:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Zweite Chance Markt Durchsage (Mittwoch & Samstag)",
+      "category": "standard",
+      "days": [
+        "We",
+        "Sa"
+      ],
+      "times": [
+        "12:00",
+        "15:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "title": "Stille Stunde Durchsage",
+      "category": "special",
+      "days": [
+        "We"
+      ],
+      "times": [
+        "16:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "Café Bar Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "Th"
+      ],
+      "times": [
+        "17:15"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "Café Bar Schlussdurchsage (Freitag)",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "18:15"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "1. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
+        "19:30"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "2. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
+        "19:45"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "3. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
+        "19:55"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "4. Schlussdurchsage",
+      "days": [
+        "Mo",
+        "Tu",
+        "We",
+        "Th"
+      ],
+      "times": [
+        "20:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
+      "category": "closing",
+      "locked": true,
+      "title": "Schlussdurchsagen 1–4 (Freitag)",
+      "days": [
+        "Fr"
+      ],
+      "times": [
+        "20:30",
+        "20:45",
+        "20:55",
+        "21:00"
+      ]
+    },
+    {
+      "type": "weekly",
+      "start": "28.09.2026",
+      "end": "14.11.2026",
       "category": "closing",
       "locked": true,
       "title": "Schlussdurchsagen 1–4 (Samstag)",
