@@ -39,11 +39,18 @@
 }
 
 /* ---- Kopf ---- */
+/* Sticky: bleibt beim Scrollen (v. a. Expanded) oben stehen. Abstand als
+   padding statt margin, damit darunter nichts durchscheint; z-index über
+   Slots (bis Zeilenanzahl) und Jetzt-Linie (150) */
 .cal-head {
+  position: sticky;
+  top: 0;
+  z-index: 200;
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 22px;
+  padding-bottom: 22px;
+  background: var(--dunkelblau);
 }
 
 .cal-head__title {
@@ -117,7 +124,7 @@
 /* ---- Raster ---- */
 .cal-grid {
   display: grid;
-  grid-template-columns: 50px repeat(7, minmax(0, 1fr));
+  grid-template-columns: 50px repeat(var(--cal-cols, 7), minmax(0, 1fr));   /* --cal-cols: sichtbare Tage, aus embed.js */
   padding: var(--pad-box) var(--pad-box) var(--pad-box) 0;
   background: var(--mittelblau);
   border-radius: var(--radius-lg);
@@ -132,13 +139,20 @@
 
 .cal-col--time { border-left: none; padding: 0; }
 
+/* Tageszeile klebt unter dem Kopf (--cal-head-h misst embed.js), damit beim
+   Scrollen klar bleibt, welche Spalte welcher Tag ist; Abstand als padding,
+   z-index über Slots und Jetzt-Linie, unter dem Kopf */
 .cal-col__head {
-  height: 40px;
+  position: sticky;
+  top: var(--cal-head-h, 0px);
+  z-index: 160;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 12px;
+  padding-bottom: 12px;
+  background: var(--mittelblau);
   font-size: var(--fs-base);
   color: var(--text-80);
 }
@@ -431,7 +445,8 @@
 }
 
 @media (max-width: 980px) {
-  .cal-head { flex-wrap: wrap; gap: 12px; }
+  /* am Handy bricht der Kopf auf mehrere Zeilen um – sticky würde zu viel Platz fressen */
+  .cal-head { position: static; flex-wrap: wrap; gap: 12px; }
   .cal-days { display: flex; }
   .cal-grid { grid-template-columns: 50px minmax(0, 1fr); padding-right: 12px; }
   .cal-col__head { display: none; }

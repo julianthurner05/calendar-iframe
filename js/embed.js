@@ -142,12 +142,6 @@ function renderLegend() {
 
 function renderCalendar() {
   const days = weekDates(calWeekStart);
-  const last = days[6];
-  const sameMonth = days[0].getMonth() === last.getMonth();
-  calRange.textContent = sameMonth
-    ? `${MONTH_SHORT[days[0].getMonth()]} ${days[0].getDate()} – ${last.getDate()}, ${last.getFullYear()}`
-    : `${MONTH_SHORT[days[0].getMonth()]} ${days[0].getDate()} – ${MONTH_SHORT[last.getMonth()]} ${last.getDate()}, ${last.getFullYear()}`;
-
   const today = new Date();
 
   /* Belegung je Tag & Slot */
@@ -163,6 +157,18 @@ function renderCalendar() {
     return slots;
   });
 
+  /* Geschlossene Tage ohne Spots (z. B. Sonntag) fallen aus der Ansicht */
+  let visible = days.map((_, di) => di).filter(di => STORE_HOURS[di] || grid[di].some(s => s.spots.length));
+  if (!visible.length) visible = days.map((_, di) => di);
+  if (!visible.includes(mobileDay)) mobileDay = visible.find(di => di > mobileDay) ?? visible[visible.length - 1];
+  calGrid.style.setProperty('--cal-cols', visible.length);
+
+  const first = days[visible[0]];
+  const last = days[visible[visible.length - 1]];
+  calRange.textContent = first.getMonth() === last.getMonth()
+    ? `${MONTH_SHORT[first.getMonth()]} ${first.getDate()} – ${last.getDate()}, ${last.getFullYear()}`
+    : `${MONTH_SHORT[first.getMonth()]} ${first.getDate()} – ${MONTH_SHORT[last.getMonth()]} ${last.getDate()}, ${last.getFullYear()}`;
+
   /* Zeilen je Slot: mehrere Opening/Closing-Zeiten im selben Slot passen
      nicht ins Raster und bekommen je eine eigene Zeile – der Slot wird für
      die ganze Woche gestreckt, damit Zeitspalte und alle Tage bündig bleiben */
@@ -174,9 +180,9 @@ function renderCalendar() {
 
   /* Tagesleiste (Handy) */
   const mobile = isMobile();
-  calDays.innerHTML = days.map((date, di) => `
+  calDays.innerHTML = visible.map(di => `
     <button class="cal-days__btn${di === mobileDay ? ' is-active' : ''}" data-day="${di}" type="button">
-      <span>${DAYS[di]}</span><span>${date.getDate()}</span>
+      <span>${DAYS[di]}</span><span>${days[di].getDate()}</span>
     </button>`).join('');
 
   const total = grid.reduce((n, slots) => n + slots.reduce((m, s) => m + s.spots.length, 0), 0);
@@ -185,7 +191,7 @@ function renderCalendar() {
 
   /* Tagesspalten */
   days.forEach((date, di) => {
-    if (mobile && di !== mobileDay) return;
+    if (!visible.includes(di) || (mobile && di !== mobileDay)) return;
     const slots = grid[di];
     const isToday = sameDay(date, today);
     html += `<div class="cal-col${isToday ? ' cal-col--today' : ''}" data-day="${di}">
@@ -231,6 +237,7 @@ function renderCalendar() {
   });
 
   calGrid.innerHTML = html;
+  calendarView.style.setProperty('--cal-head-h', `${document.querySelector('.cal-head').offsetHeight}px`);
   litUid = null;
   renderLegend();
   renderNowLine();

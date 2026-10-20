@@ -126,6 +126,8 @@ Deployment-Detail: Das Projekt läuft als **Cloudflare Worker** (Name `calendar-
 - **Design:** Das Erscheinungsbild ist 1:1 aus dem SpotTool übernommen (dunkles Design, tokens.css). Bei Code-Arbeit: ausschließlich bestehende CSS-Variablen aus tokens.css verwenden, keine neuen Tokens und keine harten Werte einführen, keine ungefragten Zusatzelemente ins UI.
 - Der Kalender ist strikt read-only – keine Edit-, Klick- oder Formulier-Funktionen einbauen. Bearbeitung passiert ausschließlich über diese JSON-Dateien. (Deshalb fehlt auch der Bearbeiten-Stift aus dem SpotTool-Kalender.)
 - **Dichte-Umschalter:** Collapsed (Standard, ganzer Tag als dünne Linien, per `--collapsed-stretch` 15 % höher als der freie Platz, da das IFrame meist schmal und hoch eingebettet ist) ↔ Expanded (28px-Slots mit Titel). Gesteuert nur über `data-density` an `.calendar-view` und CSS-Variablen; der Wechsel animiert per FLIP (`morphDensity` in `js/embed.js`) ausschließlich `transform` und `clip-path` – keine Höhen-Transitions einführen (Safari ruckelt sonst). 1:1 aus dem SpotTool (Repo `service-portal-dummy`) übernommen.
+- **Sticky Kopf:** Kopfzeile (Titel, Woche, Legende, Umschalter) und darunter die Tageszeile bleiben beim Scrollen oben stehen (`--cal-head-h` setzt `embed.js`). Am Handy (≤ 980px) scrollt der Kopf normal mit.
+- **Geschlossene Tage:** Tage mit `storeHours: null` ohne Spots in der angezeigten Woche (z. B. Sonntag) werden ausgeblendet; hat so ein Tag doch einen Spot (Sonntags-Event), erscheint er automatisch.
 - **Keine sichtbare Scrollbar:** `.embed-main` blendet die native Scrollbar aus (`scrollbar-width: none`), damit sie im IFrame beim Aufklappen keine Breite belegt. Nicht durch `scrollbar-gutter` o. Ä. ersetzen.
 
 ## Signierte Embed-URLs (worker/index.js)
