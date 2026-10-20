@@ -41,7 +41,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "IKEA FOOD Frühstücksangebot",
-      "category": "food",
+      "category": "commercial",
       "days": [
         "Mo",
         "Tu",
@@ -60,7 +60,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "IKEA FAMILY Durchsage",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -79,7 +79,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "IKEA FAMILY Durchsage (Mittwoch)",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "We"
       ],
@@ -94,7 +94,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "IKEA FAMILY Durchsage (Samstag)",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Sa"
       ],
@@ -109,7 +109,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "SCAN & PAY Durchsage",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -128,7 +128,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "SCAN & PAY Durchsage (Mittwoch)",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "We"
       ],
@@ -142,7 +142,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "SCAN & PAY Durchsage (Samstag)",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Sa"
       ],
@@ -157,7 +157,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "IKEA Geschenkkarte Durchsage",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -176,7 +176,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "Neuer Gesenkter Preis Durchsage",
-      "category": "marketing",
+      "category": "commercial",
       "days": [
         "Mo",
         "Tu",
@@ -195,7 +195,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "Neuer Gesenkter Preis (Mittwoch)",
-      "category": "marketing",
+      "category": "commercial",
       "days": [
         "We"
       ],
@@ -210,7 +210,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "Neuer Gesenkter Preis (Samstag)",
-      "category": "marketing",
+      "category": "commercial",
       "days": [
         "Sa"
       ],
@@ -225,7 +225,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "ZLS Durchsage",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -244,7 +244,7 @@
       "start": "31.08.2026",
       "end": "26.09.2026",
       "title": "ZLS Durchsage (Samstag)",
-      "category": "marketing",
+      "category": "standard",
       "days": [
         "Sa"
       ],
@@ -296,8 +296,9 @@
       "type": "weekly",
       "start": "31.08.2026",
       "end": "26.09.2026",
+      "category": "closing",
+      "locked": true,
       "title": "Café Bar Schlussdurchsage",
-      "category": "food",
       "days": [
         "Mo",
         "Tu",
@@ -416,7 +417,7 @@
       "start": "01.07.2026",
       "end": "31.07.2026",
       "title": "IKEA Family Punkte Aktion Juli",
-      "category": "marketing",
+      "category": "commercial",
       "days": [
         "Mo",
         "Tu",
