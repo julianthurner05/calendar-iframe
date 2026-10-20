@@ -286,9 +286,8 @@
     {
       "type": "weekly",
       "start": "28.09.2026",
-      "category": "closing",
-      "locked": true,
       "title": "Café Bar Schlussdurchsage",
+      "category": "standard",
       "days": [
         "Mo",
         "Tu",
@@ -301,9 +300,8 @@
     {
       "type": "weekly",
       "start": "28.09.2026",
-      "category": "closing",
-      "locked": true,
       "title": "Café Bar Schlussdurchsage (Freitag)",
+      "category": "standard",
       "days": [
         "Fr"
       ],
