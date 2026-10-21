@@ -95,6 +95,7 @@ function validateFile(file) {
 
   /* ---- Grundstruktur ---- */
   if (typeof data.storeName !== 'string' || !data.storeName) err(name, 'storeName', 'fehlt oder ist kein String');
+  if (data.title !== undefined && (typeof data.title !== 'string' || !data.title)) err(name, 'title', 'muss ein nicht-leerer String sein, wenn gesetzt');
   if (!Array.isArray(data.storeHours) || data.storeHours.length !== 7) {
     err(name, 'storeHours', 'muss ein Array mit genau 7 Einträgen sein (0 = Montag … 6 = Sonntag)');
     return;

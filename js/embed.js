@@ -406,7 +406,11 @@ async function loadStore() {
     STORE_HOURS = data.storeHours || STORE_HOURS;
     QUIET_HOURS = data.quietHours || [];
     SCHEDULES   = data.schedules  || [];
-    if (data.storeName) {
+    /* title (optional) ersetzt die komplette Überschrift, z. B. „Demo Calendar“ */
+    if (data.title) {
+      calStore.textContent = data.title;
+      document.title = data.title;
+    } else if (data.storeName) {
       calStore.textContent = `Announcement Calendar · ${data.storeName}`;
       document.title = `${data.storeName} – Announcement Calendar`;
     }

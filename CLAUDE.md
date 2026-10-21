@@ -47,6 +47,7 @@ An `index.html`, `css/` oder `js/` wird bei Datenpflege NIE etwas geändert. Cod
 
 Feldregeln:
 
+- `title` (optional): ersetzt die komplette Überschrift (Standard ist „Announcement Calendar · <storeName>“), z. B. `"Demo Calendar"` beim Demo-Kalender.
 - `storeHours`: Array mit genau 7 Einträgen, Index 0 = Montag … 6 = Sonntag. Eintrag ist `["HH:MM","HH:MM"]` (öffnet/schließt) oder `null` (geschlossen).
 - `quietHours`: `day` ist 0 = Montag … 6 = Sonntag; in diesen Fenstern läuft nichts (der Kalender zeichnet sie als gesperrten Block).
 - `schedules[]`:
